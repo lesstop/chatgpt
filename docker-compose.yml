@@ -1,3 +1,8 @@
 version: '3.4'
-services:
-chatbot: image: chatgpt environment: - PORT=8080 ports: - '8080:8080' volumes: - ./chatbot/config:/etc/chatbot restart: always
+services: chatbot: image: chatgpt 
+environment: 
+- PORT=8080 
+ports: 
+- '8080:8080' 
+volumes: - ./chatbot/config:/etc/chatbot 
+restart: always
