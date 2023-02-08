@@ -1,10 +1,13 @@
-version: '3.7'
+version: '3'
 
-services: 
-chatgpt: 
-image: openai/chatgpt 
-container_name: chatgpt 
-environment: 
-  - TOKEN=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 
-ports: - 9000:9000 
-restart: always
+services:
+  OpenAI-ChatGPT:
+    image: openai/gpt-2
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/models
+    environment:
+      - DOCKER=1
+      - PYTHONPATH=/models
+    command: python3 /models/server.py
