@@ -1,47 +1,10 @@
-version: '3.5'
+version: '3.7'
 
-services:
-  chatgpt:
-    image: chatgpt:latest
-    ports:
-      - "8080:8080"
-    environment:
-      - PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple
-      - PIP_TRUSTED_HOST=mirrors.aliyun.com
-    volumes:
-      - tokenizer:/export/chatbot/data/model/tokenizer:ro
-      - config.yaml:/export/chatbot/config.yaml:ro
-      - gpt2:/export/chatbot/data/model/gpt2:ro
-    depends_on:
-      - zookeeper
-      - redis
-      - rabbitmq
-  
-  zookeeper:
-    image: zookeeper:latest
-    hostname: zookeeper
-    restart: always
-    expose:
-      - '2181'
-      
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    restart: always
-    expose:
-      - '6379'
-  
-  rabbitmq:
-    image: rabbitmq:latest
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    restart: always
-    expose:
-      - "5672"
-      - "15672"
- 
-volumes:
-  tokenizer:
-  gpt2:
+services: 
+chatgpt: 
+image: openai/chatgpt 
+container_name: chatgpt 
+environment: 
+  - TOKEN=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 
+ports: - 9000:9000 
+restart: always
