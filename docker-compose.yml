@@ -1,8 +1,2 @@
-version: '3.4'
-services: chatbot: image: chatgpt 
-environment: 
-- PORT=8080 
-ports: 
-- '8080:8080' 
-volumes: - ./chatbot/config:/etc/chatbot 
-restart: always
+version: '3.1' 
+services: chatgpt: image: chatgpt container_name: chatgpt restart: always ports: - 8888:8888 environment: - PORT=8888 volumes: - ./chatgpt/:/app command: bash run.sh networks: - chatgpt-network networks: chatgpt-network: driver: bridge
