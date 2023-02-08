@@ -1,22 +1,47 @@
-version: '3.7'
+version: '3.5'
 
 services:
-  chat: 
-    image: ubuntu:18.04
-    networks:
-      - ConversationalNet
-    container_name: chatgpt
+  chatgpt:
+    image: chatgpt:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple
+      - PIP_TRUSTED_HOST=mirrors.aliyun.com
     volumes:
-      - ./data:/data
-    entrypoint:
-      "python"
-      "-m"
-      "chatbot.main"
-      "--model_name"
-      "chatgpt"
-      "--model_config"
-      "/data/model_config.json"
-      "--data_direct"
-      "/data/data.json"
-networks:
-  ConversationalNet:
+      - tokenizer:/export/chatbot/data/model/tokenizer:ro
+      - config.yaml:/export/chatbot/config.yaml:ro
+      - gpt2:/export/chatbot/data/model/gpt2:ro
+    depends_on:
+      - zookeeper
+      - redis
+      - rabbitmq
+  
+  zookeeper:
+    image: zookeeper:latest
+    hostname: zookeeper
+    restart: always
+    expose:
+      - '2181'
+      
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+    expose:
+      - '6379'
+  
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+    expose:
+      - "5672"
+      - "15672"
+ 
+volumes:
+  tokenizer:
+  gpt2:
