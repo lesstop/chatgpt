@@ -5,7 +5,8 @@ services:
     image: chatgpt 
     container_name: chatgpt 
     restart: always 
-    ports: - 8888:8888 
+    ports: 
+      - 8888:8888 
     environment: 
       - PORT=8888 
     volumes: 
