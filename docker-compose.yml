@@ -1,14 +1,22 @@
-version: '3.1'
+version: '3.7'
 
-services: 
-    chatgpt: 
-    image: chatgpt 
-    container_name: chatgpt 
-    restart: always 
-    ports: 
-      - 8888:8888 
-    environment: 
-      - PORT=8888 
-    volumes: 
-      - ./chatgpt/:/app 
-    command: bash run.sh 
+services:
+  chat: 
+    image: ubuntu:18.04
+    networks:
+      - ConversationalNet
+    container_name: chatgpt
+    volumes:
+      - ./data:/data
+    entrypoint:
+      "python"
+      "-m"
+      "chatbot.main"
+      "--model_name"
+      "chatgpt"
+      "--model_config"
+      "/data/model_config.json"
+      "--data_direct"
+      "/data/data.json"
+networks:
+  ConversationalNet:
